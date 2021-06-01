@@ -34,7 +34,7 @@ async function updateExpressionContainer(color, expression) {
 
 async function updateAudioVisualization(color, videoData) {
     wavesurfer.load(videoData);
-    wavesurfer.setProgressColor(color); 
+    wavesurfer.setProgressColor(color);
     wavesurfer.play();
 }
 
@@ -52,3 +52,104 @@ async function updateAudioVisualization(color, videoData) {
 //     createChord(movie, 1);
 //   }, 200);
 // }
+
+
+
+
+
+
+
+
+var expressions = {
+  'laugh' : ['😆', 'rgba( 60, 179, 113, 0.5)','rgba(  0, 153,   0, 1)'],
+  'cry'   : ['😭', 'rgba(  0,   0, 255, 0.5)','rgba(  0,  76, 153, 1)'],
+  'mumble': ['🤪', 'rgba(255, 165, 113, 0.5)','rgba(153, 153,   0, 1)'],
+  'yell'  : ['🤬', 'rgba(255,   0,   0, 0.5)', 'rgba(153,  0,  0,  1)'],
+};
+
+$(document).ready(function() {
+  function createPattern(expression) {
+    var exp = expressions[expression]
+    var canvas = document.getElementById('myChart')
+    var SIZE = canvas.width/16
+    var face = document.createElement('canvas');
+    face.width = SIZE
+    face.height = SIZE
+    var face_context = face.getContext("2d");
+    face_context.font = SIZE*.9 + 'px serif'
+    face_context.textAlign = "center";
+    face_context.textBaseline = "middle";
+    face_context.fillStyle = exp[1];
+    face_context.fillRect(0, 0, face.width, face.height);
+    face_context.fillStyle = "#ff0000";
+    face_context.fillText(exp[0], face.width / 2, face.height / 1.7)
+    var pattern = document.createElement('canvas');
+    pattern.width = SIZE
+    pattern.height = SIZE
+    var pattern_context = pattern.getContext("2d");
+    return pattern_context.createPattern(face, "repeat");
+  }
+
+
+
+
+
+
+
+
+  new Chart(document.getElementById("myChart"), {
+      responsive:true,
+      maintainAspectRatio: false,
+      type: 'bar',
+      data: {
+        labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        datasets: [
+          {
+            label: 'laugh',
+            data: [2,2,2,2,2,2,2],
+            backgroundColor: createPattern('laugh'),
+            borderColor: expressions['laugh'][2],
+            borderWidth: 2,
+            borderRadius: 10,
+          },
+          {
+            label: 'cry',
+            data: [2,2,2,2,2,2,2],
+            backgroundColor: createPattern('cry'),
+            borderColor: expressions['cry'][2],
+            borderWidth: 2,
+            borderRadius: 10,
+          },
+          {
+            label: 'mumble',
+            data: [2,2,2,2,2,2,2],
+            backgroundColor: createPattern('mumble'),
+            borderColor: expressions['mumble'][2],
+            borderWidth: 2,
+            borderRadius: 10,
+          },
+          {
+            label: 'yell',
+            data: [2,2,2,2,2,2,2],
+            backgroundColor: createPattern('yell'),
+            borderColor: expressions['yell'][2],
+            borderWidth: 2,
+            borderRadius: 10,
+          }
+        ]
+      },
+      options: {
+        plugins:{
+          legend: { display: false },
+        },
+        scales: {
+          x: {
+            stacked: true,
+          },
+          y: {
+            stacked: true
+          }
+        }
+      }
+  });
+});
