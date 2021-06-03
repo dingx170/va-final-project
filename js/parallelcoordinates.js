@@ -34,4 +34,4 @@ var trace = {
 
 var data = [trace]
 
-Plotly.newPlot('myDiv', data);
+Plotly.newPlot('parallel', data);
