@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
@@ -10,6 +10,9 @@
     <script src="https://d3js.org/d3-collection.v1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/patternomaly@1.3.0/dist/patternomaly.min.js"></script>
     <script src="https://unpkg.com/wavesurfer.js"></script>
+    <script src="js/radarchart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
     <meta charset="utf-8">
 </head>
 <body>
@@ -34,9 +37,9 @@
       <div class="col-5">
           <h5 class="text-center">Audio visualization</h5>
           <div class="expressionContainer text-center container-fluid">
-            <br><br><br>
+           
             <div id="expression" value="expression">?</div>
-            <br><br><br>
+            <br>
           </div>
           <div class="audioContainer">
             <div id="waveform"></div>
@@ -70,6 +73,25 @@
             </div>
         </div>
       </div>
+    </div>
+      s
+    <div class="row">
+        <div class="col">
+            <div class="container" >
+                <div id="parallel" style="width:50%"></div>
+            </div>
+            <script src="js/parallelcoordinates.js"></script>
+        </div>
+        <div class="col">
+            <select id="radar_dates" onChange="onRadarDateChanged(this)">
+            </select>
+            <div class="container">
+                <h5 class="text-center">Radar Chart</h5>
+                <div id="radarChart_parent" style="width:50%;height:400px">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
   </div>
 
