@@ -14,43 +14,6 @@ var wavesurfer = WaveSurfer.create({
     height: 150
 });
 
-var trace = {
-  type: 'parcoords',
-  line: {
-    color: 'blue'
-  },  
-  dimensions: [{
-    range: [0, 10],
-    constraintrange: [3, 4],
-    label: 'Cry',
-    values: [4,5],
-	tickvals: [0,4,5,10],
-    ticktext: ['0','28-May','29-May','10']
-  }, {    
-    range: [0,10],
-    label: 'Laugh',
-    values: [7,6],
-    tickvals: [0,7,6,10],
-	ticktext: ['0','28-May','29-May','10']
-  }, {
-    range: [0, 10],
-    label: 'Mumble',
-    values: [10,5],
-    tickvals: [0,10,5,10],
-    ticktext: ['0','28-May','29-May','10']
-  }, {
-    range: [0, 10],
-    label: 'Yell',
-    values: [0,0],
-	tickvals: [0,0,0,10],
-    ticktext: ['0','28-May','29-May','10']
-  }]
-};
-
-var data = [trace];
-
-Plotly.newPlot('myDiv', data);
-
 // video and audio visualization update triggered by button click
 async function updateVideo(expression) {
     var videoData = "static/video/" + expression + ".mp4";
@@ -91,7 +54,42 @@ async function updateAudioVisualization(color, videoData) {
 // }
 
 
+function createPattern(expression, chart) {
+  var exp = expressions[expression]
+  var canvas = document.getElementById(chart)
+  var SIZE = canvas.width/16
+  var face = document.createElement('canvas');
+  face.width = SIZE
+  face.height = SIZE
+  var face_context = face.getContext("2d");
+  face_context.font = SIZE*.9 + 'px serif'
+  face_context.textAlign = "center";
+  face_context.textBaseline = "middle";
+  face_context.fillStyle = exp[1];
+  face_context.fillRect(0, 0, face.width, face.height);
+  //face_context.fillStyle = "#ff0000";
+  face_context.fillText(exp[0], face.width / 2, face.height / 1.7)
+  var pattern = document.createElement('canvas');
+  pattern.width = SIZE
+  pattern.height = SIZE
+  var pattern_context = pattern.getContext("2d");
+  return pattern_context.createPattern(face, "repeat");
+}
 
+function createIcon(expression) {
+  var exp = expressions[expression]
+  var SIZE = 20
+  var face = document.createElement('canvas');
+  face.width = SIZE
+  face.height = SIZE
+  var face_context = face.getContext("2d");
+  face_context.font = SIZE*.9 + 'px serif'
+  face_context.textAlign = "center";
+  face_context.textBaseline = "middle";
+  //face_context.fillStyle = exp[1];
+  face_context.fillText(exp[0], face.width / 2, face.height / 1.7)
+  return face
+}
 
 
 
@@ -105,88 +103,88 @@ var expressions = {
 };
 
 $(document).ready(function() {
-  function createPattern(expression) {
-    var exp = expressions[expression]
-    var canvas = document.getElementById('myChart')
-    var SIZE = canvas.width/16
-    var face = document.createElement('canvas');
-    face.width = SIZE
-    face.height = SIZE
-    var face_context = face.getContext("2d");
-    face_context.font = SIZE*.9 + 'px serif'
-    face_context.textAlign = "center";
-    face_context.textBaseline = "middle";
-    face_context.fillStyle = exp[1];
-    face_context.fillRect(0, 0, face.width, face.height);
-    face_context.fillStyle = "#ff0000";
-    face_context.fillText(exp[0], face.width / 2, face.height / 1.7)
-    var pattern = document.createElement('canvas');
-    pattern.width = SIZE
-    pattern.height = SIZE
-    var pattern_context = pattern.getContext("2d");
-    return pattern_context.createPattern(face, "repeat");
-  }
 
 
 
+  function createWeekCharts(){
 
+    var sun = new Image();
+sun.src = 'https://i.imgur.com/yDYW1I7.png';
 
+var cloud = new Image();
+cloud.src = 'https://i.imgur.com/DIbr9q1.png';
 
-
-
-  new Chart(document.getElementById("myChart"), {
-      responsive:true,
-      maintainAspectRatio: false,
-      type: 'bar',
-      data: {
-        labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        datasets: [
-          {
-            label: 'laugh',
-            data: [2,2,2,2,2,2,2],
-            backgroundColor: createPattern('laugh'),
-            borderColor: expressions['laugh'][2],
-            borderWidth: 2,
-            borderRadius: 10,
-          },
-          {
-            label: 'cry',
-            data: [2,2,2,2,2,2,2],
-            backgroundColor: createPattern('cry'),
-            borderColor: expressions['cry'][2],
-            borderWidth: 2,
-            borderRadius: 10,
-          },
-          {
-            label: 'mumble',
-            data: [2,2,2,2,2,2,2],
-            backgroundColor: createPattern('mumble'),
-            borderColor: expressions['mumble'][2],
-            borderWidth: 2,
-            borderRadius: 10,
-          },
-          {
-            label: 'yell',
-            data: [2,2,2,2,2,2,2],
-            backgroundColor: createPattern('yell'),
-            borderColor: expressions['yell'][2],
-            borderWidth: 2,
-            borderRadius: 10,
-          }
-        ]
-      },
-      options: {
-        plugins:{
-          legend: { display: false },
+    for(var type of ['bar', 'line'])
+    {
+      var stacked = (type=='bar')?true:false
+      new Chart(document.getElementById(type), {
+        responsive:true,
+        maintainAspectRatio: false,
+        type: type,
+        data: {
+          labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          datasets: [
+            {
+              label: 'laugh',
+              data: [7,6,10,10,12],
+              backgroundColor: createPattern('laugh',type),
+              borderColor: expressions['laugh'][2],
+              borderWidth: 2,
+              pointStyle: createIcon('laugh'),
+              borderRadius: 10,
+              pointRadius: 5
+            },
+            {
+              label: 'cry',
+              data: [4,5,6,6,3],
+              backgroundColor: createPattern('cry',type),
+              borderColor: expressions['cry'][2],
+              borderWidth: 2,
+              pointStyle: createIcon('cry'),
+              borderRadius: 10,
+              pointRadius: 5
+            },
+            {
+              label: 'mumble',
+              data: [10,5,10,10,6],
+              backgroundColor: createPattern('mumble',type),
+              borderColor: expressions['mumble'][2],
+              borderWidth: 2,
+              pointStyle: createIcon('mumble'),
+              borderRadius: 10,
+              pointRadius: 5
+            },
+            {
+              label: 'yell',
+              data: [0,0,6,6,10],
+              backgroundColor: createPattern('yell',type),
+              borderColor: expressions['yell'][2],
+              borderWidth: 2,
+              pointStyle: createIcon('yell'),
+              borderRadius: 10,
+              pointRadius: 5
+            }
+          ]
         },
-        scales: {
-          x: {
-            stacked: true,
+        options: {
+          plugins:{
+            legend: { display: false },
           },
-          y: {
-            stacked: true
+          scales: {
+            x: {
+              stacked: stacked,
+            },
+            y: {
+              stacked: stacked
+            }
           }
         }
-      }
-  });
+      });
+    }
+  }
+
+  createWeekCharts()
+
+
+
 });
