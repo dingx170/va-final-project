@@ -10,13 +10,18 @@ var wavesurfer = WaveSurfer.create({
     waveColor: 'lightgrey',
     progressColor: 'grey',
     barWidth: 4,
+    barHeight: 2,
     barGap: 1,
     height: 150
 });
 
 // video and audio visualization update triggered by button click
 async function updateVideo(expression) {
-    var videoData = "static/video/" + expression + ".mp4";
+    // temp fix
+    var filename = expression == "Laugh" ? "Giggle" : expression;
+    var videoData = "static/video/" + filename + ".mp4";
+
+    // var videoData = "static/video/" + expression + ".mp4";
     var videoSrc = $("#player").find("#videoSrc");
     videoSrc.attr("src", videoData);
     let player = $("#player").get(0);
@@ -37,22 +42,6 @@ async function updateAudioVisualization(color, videoData) {
     wavesurfer.setProgressColor(color);
     wavesurfer.play();
 }
-
-
-// async function changeMovie(movie)
-// {
-//   $("video").each(function() {
-//     $(this).get(0).pause();
-//   });
-
-//   await makeChart(movie, 20);
-//   await updateMovieInfo(movie);
-
-//   setTimeout(function (){
-//     createChord(movie, 1);
-//   }, 200);
-// }
-
 
 function createPattern(expression, chart) {
   var exp = expressions[expression]

@@ -90,6 +90,13 @@ label{
 
 .expressionContainer {
   background-color: lightgray;
+  height: 55%;
+}
+
+#expression {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 } 
 
 #expression {
@@ -129,8 +136,25 @@ label{
 }
 
 #title {
-  color: pink;
+  color: skyblue;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
   margin-top: 10px;
 }
+
+/* .vis-title {
+  color: skyblue;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.vis-title-1 {
+  color: skyblue;
+}
+.vis-title-1 {
+  color: skyblue;
+}
+.vis-title-1 {
+  color: skyblue;
+} */
