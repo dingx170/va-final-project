@@ -2,7 +2,7 @@ var colors = {
     "Cry" : "skyblue",
     "Laugh" : "pink",
     "Mumble" : "lightgreen",
-    "Yell" : "#fbfb86"
+    "Yell" : "#fdc882"
 }
 
 var wavesurfer = WaveSurfer.create({
