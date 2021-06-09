@@ -113,6 +113,7 @@ async function onRadarDateChanged(combo) {
     act = document.querySelector('div#radar_dates button#active');
     act.id = '';
     this.id = 'active';
+    updateWeekCharts(currentDate);
     radar_chart.destroy();
     createRadarChart(dataSet);
 }
