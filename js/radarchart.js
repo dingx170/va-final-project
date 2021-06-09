@@ -6,6 +6,7 @@ var dataSet;
 
 d3.csv('/data/data.csv').then(createCharts);
 
+
 async function createCharts(dataSet) {
 
 
@@ -60,6 +61,7 @@ async function createRadarChart(data) {
         }
     });
 }
+
 function prepareChartData(data, date, isMorning) {
     var ret = [];
     dt = data.filter(x => x['Date'] == date)[0];
@@ -71,6 +73,9 @@ function prepareChartData(data, date, isMorning) {
     }
     return ret;
 }
+
+
+
 
 async function fillRadarDates(dataSet) {
     select = document.getElementById('radar_dates');
