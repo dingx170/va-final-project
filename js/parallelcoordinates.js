@@ -4,7 +4,7 @@ var extTod = [0];
 var extYesd = [0];
 
 var emotion1 = ['0','😭', '😆', '🤪', '🤬', '20'];
-var emotion2 = ['0','😭', '😆', '🤪', '🤪', '20'];
+var emotion2 = ['0','😭', '😆', '🤪', '🤬', '20'];
 
 var dataSet = d3.csv("/data/baby.csv");
 
