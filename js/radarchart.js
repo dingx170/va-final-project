@@ -1,6 +1,6 @@
 
-var emotions = ["laugh", "cry", "mumble", "yell"];
-var currentDate = '05/27/21';
+var emotions = ["Laugh", "Cry", "Mumble", "Yell"];
+var currentDate = '';
 var radar_chart;
 var dataSet;
 
@@ -8,12 +8,9 @@ d3.csv('/data/data.csv').then(createCharts);
 
 
 async function createCharts(dataSet) {
-
-
     // Radar chart
     fillRadarDates(dataSet);
     createRadarChart(dataSet);
-
 }
 
 async function createRadarChart(data) {
@@ -27,8 +24,8 @@ async function createRadarChart(data) {
                     label: "Morning",
                     data: prepareChartData(dataSet, currentDate, true),
                     fill: true,
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255,255,0, 0.3)',
+                    borderColor: 'rgb(255,255,0)',
                     borderWidth: 2,
                     borderRadius: 10
                 },
@@ -36,8 +33,8 @@ async function createRadarChart(data) {
                     label: "Evening",
                     data: prepareChartData(dataSet, currentDate, false),
                     fill: true,
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(128,0,128, 0.3)',
+                    borderColor: 'rgb(128,0,128)',
                     borderWidth: 2,
                     borderRadius: 10
                 }
@@ -55,9 +52,24 @@ async function createRadarChart(data) {
                     angleLines: {
                         display: false
                     },
-                    suggestedMin: 0
+                    pointLabels: {
+                        font: {
+                            size:13
+                        }
+                    },
+                    suggestedMin: 0                    
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 13
+                        }
+                    }
                 }
             }
+
         }
     });
 }
@@ -65,6 +77,9 @@ async function createRadarChart(data) {
 function prepareChartData(data, date, isMorning) {
     var ret = [];
     dt = data.filter(x => x['Date'] == date)[0];
+    if (dt == null)
+        return ret;
+
     if (isMorning) {
         ret.push(dt['MLaugh'], dt['MCry'], dt['MMumble'], dt['MYell']);
     }
@@ -81,17 +96,24 @@ async function fillRadarDates(dataSet) {
     select = document.getElementById('radar_dates');
 
     for (x = 0; x < dataSet.length; ++x) {
-        var opt = document.createElement('option');
-        opt.val = dataSet[x]['Date'];
-        opt.text = dataSet[x]['Date'];
+        var opt = document.createElement('button');
+        if (x == 0) {
+            opt.id = 'active';
+        }
+
+        opt.innerText = dataSet[x]['Date'];
+        opt.addEventListener('click', onRadarDateChanged);
         select.appendChild(opt);
     }
     currentDate = dataSet[0]['Date'];
 }
 
 async function onRadarDateChanged(combo) {
-    var idx = combo.selectedIndex;
-    currentDate = combo.options[idx].innerHTML;
+    currentDate = this.innerHTML;
+    act = document.querySelector('div#radar_dates button#active');
+    act.id = '';
+    this.id = 'active';
     radar_chart.destroy();
     createRadarChart(dataSet);
 }
+
