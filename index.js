@@ -46,29 +46,35 @@ async function updateAudioVisualization(color, videoData) {
 
 
 
+
+
 ///////////////////////////////////////////////////////////////////////////////////WEEK CHARTS
 var lineChart;
 var barChart;
 var expressions = {
-  'laugh' : ['😄', 'rgba( 60, 179, 113, 0.5)','rgba(  0, 153,   0, 1)'],
-  'cry'   : ['😭', 'rgba(  0,   0, 255, 0.5)','rgba(  0,  76, 153, 1)'],
-  'mumble': ['😲', 'rgba(255, 165, 113, 0.5)','rgba(153, 153,   0, 1)'],
-  'yell'  : ['😆', 'rgba(255,   0,   0, 0.5)', 'rgba(153,  0,  0,  1)'],
+  'laugh' : ['😄', 'rgba(255, 192, 203, 0.8)','rgba(255, 192, 203, 1)'],
+  'cry'   : ['😭', 'rgba(135, 206, 235, 0.8)','rgba(135, 206, 235, 1)'],
+  'mumble': ['😲', 'rgba(144, 238, 144, 0.8)','rgba(144, 238, 144, 1)'],
+  'yell'  : ['😆', 'rgba(253, 200, 130, 0.8)','rgba(253, 200, 130, 1)'],
 };
 
-function createIcon(expression, size, op=1) {
+function createIcon(expression, size, op=1, box=false) {
   var exp = expressions[expression]
   var face = document.createElement('canvas');
   face.width = size
   face.height = size
   var face_context = face.getContext("2d");
-  face_context.font = size*.88 + 'px serif'
+  face_context.font = size*.86 + 'px serif'
   face_context.textAlign = "center";
   face_context.textBaseline = "middle";
+  face_context.fillStyle = exp[1];
+  if(box)
+    face_context.fillRect(0, 0, face.width, face.height);
   face_context.globalAlpha = op;
   face_context.fillText(exp[0], face.width / 2, face.height / 1.73)
   return face
 }
+
 
 async function updateWeekCharts(date)
 {
@@ -92,61 +98,61 @@ async function updateWeekCharts(date)
     }catch{}
     d.setDate(d.getDate()+1);
   }
-
-  var data= {
+  function DATA(box){
+  return {
       labels: labels,
       datasets: [
         {
-          label: 'laugh',
+          label: ' laugh',
           data: chartData.laugh,
           backgroundColor: expressions['laugh'][1],
           borderColor: expressions['laugh'][2],
-          borderWidth: 2,
-          pointStyle: createIcon('laugh',20),
+          borderWidth: 4,
+          pointStyle: createIcon('laugh',27,.8,box),
           borderRadius: 10,
-          pointRadius: 20
+          pointRadius: 35
         },
         {
-          label: 'cry',
+          label: ' cry',
           data: chartData.cry,
           backgroundColor: expressions['cry'][1],
           borderColor: expressions['cry'][2],
-          borderWidth: 2,
-          pointStyle: createIcon('cry',20),
+          borderWidth: 4,
+          pointStyle: createIcon('cry',27,.8,box),
           borderRadius: 10,
-          pointRadius: 20
+          pointRadius: 35
         },
         {
-          label: 'mumble',
+          label: ' mumble',
           data: chartData.mumble,
           backgroundColor: expressions['mumble'][1],
           borderColor: expressions['mumble'][2],
-          borderWidth: 2,
-          pointStyle: createIcon('mumble',20),
+          borderWidth: 4,
+          pointStyle: createIcon('mumble',27,.8,box),
           borderRadius: 10,
-          pointRadius: 20
+          pointRadius: 35
         },
         {
-          label: 'yell',
+          label: ' yell',
           data: chartData.yell,
           backgroundColor: expressions['yell'][1],
           borderColor: expressions['yell'][2],
-          borderWidth: 2,
-          pointStyle: createIcon('yell',20),
+          borderWidth: 4,
+          pointStyle: createIcon('yell',27,.8,box),
           borderRadius: 10,
-          pointRadius: 20
+          pointRadius: 35
         }
       ]
     }
+  }
   if(lineChart)lineChart.destroy();
   lineChart = new Chart(document.getElementById('line'), {
         responsive:true,
         maintainAspectRatio: false,
         type: 'line',
-        data: data,
+        data: DATA(false),
         options: {
           plugins:{
-            tooltip:{backgroundColor: "rgba(0,0,0,1)"},
             legend:{
               labels:{
                 usePointStyle: true,
@@ -158,25 +164,10 @@ async function updateWeekCharts(date)
       });
   if(barChart)barChart.destroy();
   barChart = new Chart(document.getElementById('bar'), {
-  responsive:true,
-  maintainAspectRatio: false,
-  type: 'bar',
-  data: data,
-  options: {
-    plugins:{
-      tooltip:{backgroundColor: "rgba(0,0,0,1)"},
-      legend:{
-        labels:{
-          usePointStyle: true,
-          padding: 20
-        }
-      }
-    },
-    animation: {
-    duration: 1,
-    onProgress: function () {
-        barChart.data.datasets.forEach(function (dataset, i) {
-          var meta = barChart.getDatasetMeta(i);
+    plugins:[{
+      afterDatasetsDraw: function(chartInstance) {
+        chartInstance.data.datasets.forEach(function (dataset, i) {
+          var meta = chartInstance.getDatasetMeta(i);
           if(meta.hidden != true)
           {
             meta.data.forEach(function (bar, index) {
@@ -185,17 +176,31 @@ async function updateWeekCharts(date)
               if(height>0)
               {
                 var size = Math.min(width,height);
-                var ico = createIcon(meta.label, size,.25);
+                var ico = createIcon(meta.label.trim(), size,0.5);
                 var centerX = bar.x-(ico.width/2)
                 var centerY = bar.base - ((height)/2)-(ico.height/2)
-                barChart.ctx.drawImage(ico, centerX, centerY, size, size);
+                if(ico.width >0 && ico.height>0)
+                  barChart.ctx.drawImage(ico, centerX, centerY, size, size);
               }
             });
           }
         });
+      },
+    }],
+  responsive:true,
+  maintainAspectRatio: false,
+  type: 'bar',
+  data: DATA(true),
+  options: {
+    scales: {x: {stacked: true,},y: {stacked: true}},
+    plugins:{
+      legend:{
+        labels:{
+          usePointStyle: true,
+          padding: 25
+        }
       }
     },
-    scales: {x: {stacked: true,},y: {stacked: true}}
    }
   });
 }
