@@ -16,14 +16,22 @@
 </head>
 <body>
     <div class="jumbotron text-center">
-        <h1 class="text-center" id="title">Baby "Language" Visualization</h1>
+        <h1 class="text-center title-all title-top">
+            <span class="title-1">Baby</span>
+            <span class="title-2">"</span>
+            <span class="title-3">Language</span>
+            <span class="title-2">"</span>
+            <span class="title-4">Visualization</span>
+        </h1> 
     </div>
-    <hr>
     <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="mask-tab">
         <div class="row">
+            <hr>
+            <p class="text-center title-all title-sub title-5">Audio Visualization</p>
+            <hr>
             <div class="col-1"></div>
             <div class="col-5">
-                <h5 class="text-center">Live stream/ Recorded video</h5>
+                
                 <div class="videoContainer">
                     <video id="player" class="responsive-video" controls>
                         <source id="videoSrc" src="" type="video/mp4">
@@ -34,7 +42,6 @@
 
             </div>
             <div class="col-5">
-                <h5 class="text-center">Audio visualization</h5>
                 <div class="row expressionContainer text-center container-fluid">
                     <div id="expression" value="expression">?</div>
 
@@ -54,9 +61,10 @@
             <div class="col-1"></div>
         </div>
 
-        <hr>
-
         <div class="row">
+            <hr>
+            <p class="text-center title-all title-sub title-5">Daily & Weekly Progress</p>
+            <hr>
             <div class="col-1"></div>
             <div class="col">
                 <div class="container">
@@ -85,7 +93,7 @@
             <div class="col-1"></div>
             <div class="col">
                 <div class="container">
-                    <h5 class="text-center">Baby expressions over time</h5>
+                    <h5 class="text-center">The change of baby expressions over time (proportion focused)</h5>
                     <div style="width:100%">
                         <canvas id="bar"></canvas>
                     </div>
@@ -93,7 +101,7 @@
             </div>
             <div class="col">
                 <div class="container">
-                    <h5 class="text-center">Baby expressions over time</h5>
+                    <h5 class="text-center">The change of baby expressions over time (trend focused)</h5>
                     <div style="width:100%">
                         <canvas id="line"></canvas>
                     </div>
