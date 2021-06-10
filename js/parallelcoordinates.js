@@ -20,18 +20,22 @@ var mumble = [];
 var yell = [];
 
 //d3.csv("/data/baby.csv").then(createParallet);
-async function createParallet(currentDate){
+async function createParallet(today){
 
   $("#parallel").html("");
   $("#cirl-chart").html("");
 
 
-
-
-
 var trace, traceCry, traceLaugh, traceYell, traceMumble;
 var dataSet = await d3.csv("/data/data.csv");
-var todayDate = dataSet[dataSet.length-1]['Date'];
+
+var d = new Date((today)?today:data[0].dataSet);
+var todayDate = `${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}`
+today = dayData(dataSet, todayDate);
+d.setDate(d.getDate() - 1);
+var yesterdayDate = `${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}`
+yesterday = dayData(dataSet, `${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}`);
+
 var emotion = ['','😭', '😄', '😲', '😆'];
 var emotion2 = [`😄Laugh`, `😭Cry`,` 😲Mumble`,` 😆Yell`];
 var colorEmo = ['rgba(255, 192, 203, 1)','rgba(255, 192, 203, 1)','rgba(135, 206, 235, 1)','rgba(144, 238, 144, 1)','rgba(253, 200, 130, 1)','rgba(253, 200, 130, 1)'],
@@ -43,8 +47,6 @@ yell = [];
 
 parallData = [];
 
-yesterday = dayData(dataSet, currentDate);
-today = dayData(dataSet, todayDate);
 extOne = extYesd.concat(yesterday);
 extTwo = extTod.concat(today);
 sumCurr =  yesterday.reduce((a, b) => a + b);
@@ -66,7 +68,7 @@ trace = {
 
   dimensions: [ {
     range: [0, maxRange],
-    label: currentDate,
+    label: yesterdayDate,
     values: yesterday, 
     tickvals: extOne, 
     ticktext: abc,
@@ -175,13 +177,14 @@ var elmnt = document.getElementById("abc");
 function dayData(dataSet, date) {
     var ret = [];
     dt = dataSet.filter(x => x['Date'] == date)[0];
+    if (dt === undefined) {return [0,0,0,0,0]}
     const numCry = parseInt(dt['MCry'] || 0)+parseInt(dt['ECry']||0);
     const numLaugh = parseInt(dt.MLaugh || 0)+parseInt(dt.ELaugh||0);
     const numMumble = parseInt(dt.MMumble || 0)+parseInt(dt.EMumble || 0);
     const numYell =  parseInt(dt.MYell || 0)+parseInt(dt.EYell || 0);
-   // cry.push( numCry);
-   // laugh.push(numLaugh);
-   // mumble.push(mumble);
+    // cry.push( numCry);
+    // laugh.push(numLaugh);
+    // mumble.push(mumble);
     yell.push( mumble);
 	  ret.push(numCry, numLaugh, numMumble, numYell);
     return ret;
