@@ -175,7 +175,8 @@ label {
 div#radar_dates {
     display: flex;
     overflow-x: scroll;
-    max-width: 480px;
+    max-width: 800px;
+    max-height: 200px;
     margin: auto;
 }
 

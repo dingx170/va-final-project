@@ -14,6 +14,7 @@ var trace;
 var dataSet = await d3.csv("/data/data.csv");
 var todayDate = dataSet[dataSet.length-1]['Date'];
 var emotion = ['0','😭', '😄', '😲', '😆', '40'];
+var emotion2 = [`😄Laugh`, `😭Cry`,` 😲Mumble`,` 😆Yell`];
 
 
 parallData = [];
@@ -27,7 +28,7 @@ extTwo = extTod.concat(today);
 trace = {
   type: 'parcoords',
   line: {
-    color:  'green'
+    color: '#17BECF'
   },
 
   dimensions: [ {
@@ -47,7 +48,22 @@ trace = {
   }]
 };
 
+var trace1 = {
+  x:emotion2,
+  y: yesterday,
+  type: 'bar',
+  name: currentDate
+};
+
+var trace2 = {
+  x:emotion2,
+  y: today,
+  type: 'bar',
+  name: todayDate
+};
+
 parallData = [trace]
+barData = [trace1,trace2]
 
 var layout = {
   title: {text:'😄Laugh 😭Cry 😲Mumble 😆Yell',
@@ -65,6 +81,8 @@ var config = {
 };
 
 Plotly.newPlot('parallel', parallData,layout, {displayModeBar: true}, config);
+
+Plotly.newPlot('bar-chart', barData,layout, {displayModeBar: true}, config);
 
 }
 
