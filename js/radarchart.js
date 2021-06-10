@@ -1,10 +1,12 @@
-
 var emotions = ["Laugh", "Cry", "Mumble", "Yell"];
 var currentDate = '';
 var radar_chart;
 var dataSet;
 
-d3.csv('/data/data.csv').then(createCharts);
+$(document).ready(function() {
+    d3.csv('/data/data.csv').then(createCharts);
+  });
+
 
 
 async function createCharts(dataSet) {
@@ -17,6 +19,7 @@ async function createRadarChart(data) {
     dataSet = data;
     radar_chart = new Chart(document.getElementById('radarChart'), {
         type: 'radar',
+        apectRatio: 2,
         data: {
             labels: emotions,
             datasets: [
@@ -40,37 +43,6 @@ async function createRadarChart(data) {
                 }
             ]
         },
-        options: {
-            elements: {
-                line: {
-                    borderWidth: 3,
-                    tension: 0.15
-                }
-            },
-            scales: {
-                r: {
-                    angleLines: {
-                        display: false
-                    },
-                    pointLabels: {
-                        font: {
-                            size:13
-                        }
-                    },
-                    suggestedMin: 0
-                }
-            },
-            plugins: {
-                legend: {
-                    labels: {
-                        font: {
-                            size: 13
-                        }
-                    }
-                }
-            }
-
-        }
     });
 }
 
@@ -119,4 +91,3 @@ async function onRadarDateChanged(combo) {
     createRadarChart(dataSet);
     createParallet(currentDate);
 }
-

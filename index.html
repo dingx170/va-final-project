@@ -24,6 +24,7 @@
             <span class="title-4">Visualization</span>
         </h1>
     </div>
+
     <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="mask-tab">
         <div class="row">
             <hr>
@@ -69,25 +70,29 @@
                 <div class="container">
                     <h5 class="text-center">Baby expression today vs yesterday</h5>
                 </div>
+                <div id="abc" class="container"> 
+                        <div  id="parallel"></div>
+                </div>
+                <!--
                 <div class="container">
-                    <div id="parallel"></div>
+                    <div style="height: 100%;" id="parallel"></div>
                     <div id="cirl-chart"></div>
                 </div>
+            -->
                 <script src="js/parallelcoordinates.js"></script>
             </div>        
             <div class="col-5" >
               <div class="container">
                 <h5 class="text-center">Baby expression morning vs evening</h5>   
               </div>
-              <div class="container">      
-                <div id="radarChart_parent" >
-                  <canvas id="radarChart"></canvas>
-                </div>
+              <div class="container">
+                    <canvas class="containerRatio" id="radarChart"></canvas>
               </div>
+              
           </div>
         </div>
         <br>
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" style="height: 50%;">
             <div class="col-5" >
                 <div class="container">
                     <h5 class="text-center">Baby expressions over time(proportion focused)</h5>
@@ -109,5 +114,6 @@
 
     <script src="index.js"></script>
     <script src="js/radarchart.js"></script>
+
 </body>
 </html>

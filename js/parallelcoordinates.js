@@ -21,12 +21,20 @@ var yell = [];
 
 //d3.csv("/data/baby.csv").then(createParallet);
 async function createParallet(currentDate){
+
+  $("#parallel").html("");
+  $("#cirl-chart").html("");
+
+
+
+
+
 var trace, traceCry, traceLaugh, traceYell, traceMumble;
 var dataSet = await d3.csv("/data/data.csv");
 var todayDate = dataSet[dataSet.length-1]['Date'];
-var emotion = ['0','😭', '😄', '😲', '😆', '40'];
+var emotion = ['','😭', '😄', '😲', '😆'];
 var emotion2 = [`😄Laugh`, `😭Cry`,` 😲Mumble`,` 😆Yell`];
-var colorEmo = ['rgba( 60, 179, 113, 0.5)','rgba(  0,   0, 255, 0.5)','rgba(255, 165, 113, 0.5)','rgba(255,   0,   0, 0.5)'];
+var colorEmo = ['rgba(255, 192, 203, 1)','rgba(255, 192, 203, 1)','rgba(135, 206, 235, 1)','rgba(144, 238, 144, 1)','rgba(253, 200, 130, 1)','rgba(253, 200, 130, 1)'],
 
 cry = [];
 laugh = [];
@@ -35,7 +43,6 @@ yell = [];
 
 parallData = [];
 
-Plotly.newPlot('parallel', parallData);
 yesterday = dayData(dataSet, currentDate);
 today = dayData(dataSet, todayDate);
 extOne = extYesd.concat(yesterday);
@@ -45,30 +52,36 @@ sumToday = today.reduce((a,b) => a + b);
 
 cirlCurr = getRatio(yesterday, sumCurr+sumToday);
 cirlTod = getRatio(today, sumToday+sumCurr);
+var maxRange = Math.max(Math.max.apply(null, extOne),Math.max.apply(null, extTwo))
 
+var abc = [], bca = []
 
-
+for(var x=0; x<extOne.length; x++)
+  abc.push(emotion[x]+" "+extOne[x]) 
+for(var x=0; x<extTwo.length; x++)
+  bca.push(emotion[x]+" "+extTwo[x]) 
 
 trace = {
   type: 'parcoords',
-  line: {
-    color: '#17BECF'
-  },
 
   dimensions: [ {
-    range: [0, 35],
+    range: [0, maxRange],
     label: currentDate,
-    values: yesterday, //dayData(dataSet, 'today'),
-    tickvals: extOne, // [0,12,16,13,2,20],
-	ticktext: emotion
+    values: yesterday, 
+    tickvals: extOne, 
+    ticktext: abc,
+    colors: colorEmo
+
   },
 
   {
-    range: [0, 35],
+    range: [0, maxRange],
     label: todayDate,
-    values: today, //dayData(dataSet, 'today'),
-    tickvals: extTwo, // [0,12,16,13,2,20],
-	ticktext: emotion
+    values: today, 
+    tickvals: extTwo, 
+	  ticktext: bca,
+    color: colorEmo
+  
   }]
 };
 
@@ -76,7 +89,7 @@ var traceBar1 = {
   x:emotion2,
   y: yesterday,
   type: 'bar',
-  name: currentDate
+  name: currentDate,
 };
 
 var traceBar2 = {
@@ -90,18 +103,16 @@ parallData = [trace]
 barData = [traceBar1,traceBar2]
 
 var layout = {
-  title: {text:'😄Laugh 😭Cry 😲Mumble 😆Yell',
   font: {
-    family: 'Times New Roman',
-    size: 18
+    family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+    size: 20
     },
+
+  title: {text:'😄Laugh 😭Cry 😲Mumble 😆Yell',
+  font: {size: 14},
 
   },
   showlegend: true
-};
-var config = {
-  showLink: true,
-  plotlyServerURL: "https://chart-studio.plotly.com"
 };
 
 
@@ -133,22 +144,31 @@ var layout2 = {
   showlegend: true
 };
 
-var config = {
-toImageButtonOptions: {
-  format: 'svg', // one of png, svg, jpeg, webp
-  filename: 'custom_image',
-  height: 500,
-  width: 500,
-  scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
-}
-};
 
-Plotly.newPlot('cirl-chart', circleData, layout2, config);
+var elmnt = document.getElementById("abc");
+  var par = Plotly.d3.select('#parallel').append('div').style({
+     height: elmnt.offsetWidth+'px',
+    'margin-top': 0 + '%',
+    'margin-bottom': 10 + '%'
+  });
+  /*
+  var cir = Plotly.d3.select('#cirl-chart').append('div').style({
+    height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
+   'margin-top': 0 + 'vh',
+   'margin-bottom': 10 + 'vh'
+ });
+ */
+  var parallel = par.node();
+  Plotly.plot(parallel, parallData, layout);
+  //var circle = cir.node();
+  //Plotly.plot(circle, circleData, layout2);
+
+  window.onresize = function() {
+   Plotly.Plots.resize(parallel);
+   //Plotly.Plots.resize(circle);
+  };
 
 
-Plotly.newPlot('parallel', parallData,layout, {displayModeBar: true}, config);
-
-//Plotly.newPlot('bar-chart', barData,layout, {displayModeBar: true}, config);
 
 }
 
@@ -179,5 +199,3 @@ function getRatio(arr, sumData){
 $(document).ready(function() {
   createParallet(defaultDate)
 });
-
-
