@@ -57,7 +57,7 @@ async function createRadarChart(data) {
                             size:13
                         }
                     },
-                    suggestedMin: 0                    
+                    suggestedMin: 0
                 }
             },
             plugins: {
@@ -115,6 +115,8 @@ async function onRadarDateChanged(combo) {
     this.id = 'active';
     updateWeekCharts(currentDate);
     radar_chart.destroy();
+    
     createRadarChart(dataSet);
+    createParallet(currentDate);
 }
 
