@@ -3,15 +3,17 @@ var yesterday;
 var extTod = [0];
 var extYesd = [0];
 
+
 var parallData;
-var currentDate = '5/28/2021'
+var currentDate = '5/28/2021';
+var defaultDate = '5/28/2021'
 
 //d3.csv("/data/baby.csv").then(createParallet);
 async function createParallet(currentDate){
 var trace;
 var dataSet = await d3.csv("/data/data.csv");
 var todayDate = dataSet[dataSet.length-1]['Date'];
-var emotion = ['0','😭', '😆', '🤪', '🤬', '40'];
+var emotion = ['0','😭', '😄', '😲', '😆', '40'];
 
 
 parallData = [];
@@ -25,18 +27,20 @@ extTwo = extTod.concat(today);
 trace = {
   type: 'parcoords',
   line: {
-    color: 'blue'
+    color:  'green'
   },
 
-  dimensions: [{
-    range: [0, 20],
+  dimensions: [ {
+    range: [0, 35],
     label: currentDate,
-    values: yesterday, // dayData(dataSet, 'yesterday'),
-	  tickvals: extOne, //[0,8,17,16,0,20],
-    ticktext: emotion
-  }, {
-    range: [0, 20],
-    label: 'Today',
+    values: yesterday, //dayData(dataSet, 'today'),
+    tickvals: extOne, // [0,12,16,13,2,20],
+	ticktext: emotion
+  },
+
+  {
+    range: [0, 35],
+    label: todayDate,
     values: today, //dayData(dataSet, 'today'),
     tickvals: extTwo, // [0,12,16,13,2,20],
 	ticktext: emotion
@@ -46,11 +50,21 @@ trace = {
 parallData = [trace]
 
 var layout = {
-  title: 'Baby expression <br>today vs previous day ',
+  title: {text:'😄Laugh 😭Cry 😲Mumble 😆Yell',
+  font: {
+    family: 'Times New Roman',
+    size: 18
+    },
+
+  },
   showlegend: true
 };
+var config = {
+  showLink: true,
+  plotlyServerURL: "https://chart-studio.plotly.com"
+};
 
-Plotly.newPlot('parallel', parallData,layout, {displayModeBar: true});
+Plotly.newPlot('parallel', parallData,layout, {displayModeBar: true}, config);
 
 }
 
@@ -66,7 +80,7 @@ function dayData(dataSet, date) {
 }
 
 $(document).ready(function() {
-  createParallet(null)
+  createParallet(defaultDate)
 });
 
 
