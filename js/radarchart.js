@@ -24,8 +24,8 @@ async function createRadarChart(data) {
                     label: "Morning",
                     data: prepareChartData(dataSet, currentDate, true),
                     fill: true,
-                    backgroundColor: 'rgba(255,255,0, 0.3)',
-                    borderColor: 'rgb(255,255,0)',
+                    backgroundColor: pattern.draw('diagonal-right-left',`rgba(0, 128, 0,0.3)`),
+                    borderColor: 'rgb(0,128,0)',
                     borderWidth: 2,
                     borderRadius: 10
                 },
@@ -33,7 +33,7 @@ async function createRadarChart(data) {
                     label: "Evening",
                     data: prepareChartData(dataSet, currentDate, false),
                     fill: true,
-                    backgroundColor: 'rgba(128,0,128, 0.3)',
+                    backgroundColor: pattern.draw('diagonal',`rgba(128, 0, 128,0.3)`),
                     borderColor: 'rgb(128,0,128)',
                     borderWidth: 2,
                     borderRadius: 10
