@@ -109,7 +109,7 @@ async function fillRadarDates(dataSet) {
 }
 
 async function onRadarDateChanged(combo) {
-    currentDate = this.innerHTML;
+    currentDate = this.innerHTML; // == selected date == today (yesterday's date = today - 1)
     act = document.querySelector('div#radar_dates button#active');
     act.id = '';
     this.id = 'active';
