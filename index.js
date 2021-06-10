@@ -54,10 +54,10 @@ async function updateAudioVisualization(color, videoData) {
 var lineChart;
 var barChart;
 var expressions = {
-  'laugh' : ['😆', 'rgba( 60, 179, 113, 0.5)','rgba(  0, 153,   0, 1)'],
+  'laugh' : ['😄', 'rgba( 60, 179, 113, 0.5)','rgba(  0, 153,   0, 1)'],
   'cry'   : ['😭', 'rgba(  0,   0, 255, 0.5)','rgba(  0,  76, 153, 1)'],
-  'mumble': ['🤪', 'rgba(255, 165, 113, 0.5)','rgba(153, 153,   0, 1)'],
-  'yell'  : ['🤬', 'rgba(255,   0,   0, 0.5)', 'rgba(153,  0,  0,  1)'],
+  'mumble': ['😲', 'rgba(255, 165, 113, 0.5)','rgba(153, 153,   0, 1)'],
+  'yell'  : ['😆', 'rgba(255,   0,   0, 0.5)', 'rgba(153,  0,  0,  1)'],
 };
 
 function createIcon(expression, size, op=1) {
