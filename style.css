@@ -93,7 +93,12 @@ label {
 
 .expressionContainer {
     background-color: lightgray;
-    height: 55%;
+    height: 57%;
+}
+
+.audioContainer {
+    margin-top: 1%;
+    height: 30%;
 }
 
 #expression {
@@ -141,11 +146,30 @@ label {
     background-color: lightgreen;
 }
 
-#title {
-    color: skyblue;
+.title-all {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
+}
+.title-top {
     margin-top: 10px;
+}
+.title-sub {
+    font-size: 30px;
+}
+.title-1 {
+    color: pink;
+}
+.title-2 {
+    color: #fdc882;
+}
+.title-3 {
+    color: lightgreen;
+}
+.title-4 {
+    color: skyblue;
+}
+.title-5 {
+    color: rgb(233, 178, 233);
 }
 
 div#radar_dates {

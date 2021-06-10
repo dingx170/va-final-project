@@ -17,11 +17,7 @@ var wavesurfer = WaveSurfer.create({
 
 // video and audio visualization update triggered by button click
 async function updateVideo(expression) {
-    // temp fix
-    var filename = expression == "Laugh" ? "Giggle" : expression;
-    var videoData = "static/video/" + filename + ".mp4";
-
-    // var videoData = "static/video/" + expression + ".mp4";
+    var videoData = "/video/" + expression + ".mp4";
     var videoSrc = $("#player").find("#videoSrc");
     videoSrc.attr("src", videoData);
     let player = $("#player").get(0);
