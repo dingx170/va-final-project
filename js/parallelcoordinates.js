@@ -8,17 +8,6 @@ var parallData;
 var currentDate = '5/28/2021';
 var defaultDate = '5/28/2021';
 
-var sumCurr;
-var sumToday;
-
-var cirlCurr =[];
-var cirlTod = [];
-
-var cry = [];
-var laugh = [];
-var mumble = [];
-var yell = [];
-
 //d3.csv("/data/baby.csv").then(createParallet);
 async function createParallet(today){
 
@@ -40,20 +29,15 @@ var emotion = ['','😭', '😄', '😲', '😆'];
 var emotion2 = [`😄Laugh`, `😭Cry`,` 😲Mumble`,` 😆Yell`];
 var colorEmo = ['rgba(255, 192, 203, 1)','rgba(255, 192, 203, 1)','rgba(135, 206, 235, 1)','rgba(144, 238, 144, 1)','rgba(253, 200, 130, 1)','rgba(253, 200, 130, 1)'],
 
-cry = [];
-laugh = [];
-mumble = [];
-yell = [];
+
 
 parallData = [];
 
 extOne = extYesd.concat(yesterday);
 extTwo = extTod.concat(today);
-sumCurr =  yesterday.reduce((a, b) => a + b);
-sumToday = today.reduce((a,b) => a + b);
 
-cirlCurr = getRatio(yesterday, sumCurr+sumToday);
-cirlTod = getRatio(today, sumToday+sumCurr);
+
+
 var maxRange = Math.max(Math.max.apply(null, extOne),Math.max.apply(null, extTwo))
 
 var abc = [], bca = []
@@ -111,35 +95,11 @@ var layout = {
     },
 
   title: {text:'😄Laugh 😭Cry 😲Mumble 😆Yell',
-  font: {size: 14},
+  font: {size: 16},
 
   },
   showlegend: true
 };
-
-
-var traceCir1 = {
-  x: emotion2,
-  y: yesterday,
-  mode: 'markers',
-  marker: {
-      size: cirlCurr,
-  },
-  name: currentDate
-};
-var traceCir2 = {
-  x: emotion2,
-  y: today,
-  mode: 'markers',
-  marker: {
-      size: cirlTod,
-      color: 'green',
-  },
-  name: todayDate
-};
-
-
-var circleData = [traceCir1, traceCir2];
 
 var layout2 = {
   title: `Baby Expression: ${currentDate} vs ${todayDate}`,
@@ -153,21 +113,13 @@ var elmnt = document.getElementById("abc");
     'margin-top': 0 + '%',
     'margin-bottom': 10 + '%'
   });
-  /*
-  var cir = Plotly.d3.select('#cirl-chart').append('div').style({
-    height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
-   'margin-top': 0 + 'vh',
-   'margin-bottom': 10 + 'vh'
- });
- */
+ 
   var parallel = par.node();
   Plotly.plot(parallel, parallData, layout);
-  //var circle = cir.node();
-  //Plotly.plot(circle, circleData, layout2);
+ 
 
   window.onresize = function() {
    Plotly.Plots.resize(parallel);
-   //Plotly.Plots.resize(circle);
   };
 
 
@@ -182,11 +134,8 @@ function dayData(dataSet, date) {
     const numLaugh = parseInt(dt.MLaugh || 0)+parseInt(dt.ELaugh||0);
     const numMumble = parseInt(dt.MMumble || 0)+parseInt(dt.EMumble || 0);
     const numYell =  parseInt(dt.MYell || 0)+parseInt(dt.EYell || 0);
-    // cry.push( numCry);
-    // laugh.push(numLaugh);
-    // mumble.push(mumble);
-    yell.push( mumble);
-	  ret.push(numCry, numLaugh, numMumble, numYell);
+
+	ret.push(numCry, numLaugh, numMumble, numYell);
     return ret;
 }
 

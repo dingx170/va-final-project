@@ -43,6 +43,34 @@ async function createRadarChart(data) {
                 }
             ]
         },
+        
+        options: {
+            scales: {
+                r: {
+                    angleLines: {
+                        display: false
+                    },
+                    pointLabels: {
+                        font: {
+                            family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+                            size: 14
+                        }
+                    },
+                    
+                    suggestedMin: 0
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+                            size: 15
+                        }
+                    }
+                }
+            }
+        }
     });
 }
 
